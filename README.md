@@ -24,6 +24,20 @@ http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.h
 
 ### Utilizando o comando JAVAC no Prompt de Comando
 
+* Siga apenas o primeiro bloco do Link abaixo e o segundo ponto.
+
 Siga os Passos descritos nesse Link, após instalar o Java SE-JDK 8u66 para poder utilizar o Java Compiler no CMD.
 
 Link: http://introcs.cs.princeton.edu/java/15inout/windows-cmd.html
+
+## Tabelas Banco de Dados
+
+### Tabela Usuarios
+
+```
+
+CREATE TABLE `projetolp2`.`Usuarios` ( `id_usuario` INT NOT NULL AUTO_INCREMENT , `Usuario` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL , `Senha` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL , `Nome` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ) ENGINE = InnoDB;
+
+```
+
+### Tabela Chat
