@@ -30,6 +30,8 @@ Siga os Passos descritos nesse Link, após instalar o Java SE-JDK 8u66 para pode
 
 Link: http://introcs.cs.princeton.edu/java/15inout/windows-cmd.html
 
+* ScreenShot de tudo pronto: https://www.dropbox.com/s/3rp0cwe6pj0xrcq/Instru%C3%A7%C3%B5es.png?dl=0
+
 ## Tabelas Banco de Dados
 
 ### Tabela Usuarios
