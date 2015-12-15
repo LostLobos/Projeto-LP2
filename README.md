@@ -32,6 +32,12 @@ Link: http://introcs.cs.princeton.edu/java/15inout/windows-cmd.html
 
 * ScreenShot de tudo pronto: https://www.dropbox.com/s/3rp0cwe6pj0xrcq/Instru%C3%A7%C3%B5es.png?dl=0
 
+* Para testar se está funcionando abra o PROMPT de Comando novamente ( Feche o Anterior ) e digite:
+
+```
+javac -version
+```
+
 ## Tabelas Banco de Dados
 
 ### Tabela Usuarios
