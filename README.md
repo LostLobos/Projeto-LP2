@@ -8,6 +8,14 @@ Todas as Informações Pertinentes ao Projeto por  aqui.
 * Programa do Git: https://git-for-windows.github.io/
 * NotePad++ ("IDE"): https://notepad-plus-plus.org/download/v6.8.8.html
 
+## Informações Importantes
+
+* Compilar com JAVAC utilizando o Driver MySQL
+
+```
+java -cp ;"C:\Users\Igor\Desktop\Faculdade\LP2\Projeto\Projeto-LP2\mysql-connector-java-5.1.38-bin.jar"Main
+```
+
 
 ## Instalar Java-SDK no Windows
 
