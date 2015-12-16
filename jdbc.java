@@ -43,6 +43,20 @@ public class jdbc{
 		}
 	}
 	
+	public ResultSet runQuery(String Query){
+		
+		try{
+			Statement stmt = connection.createStatement();
+			
+			ResultSet rs = stmt.executeQuery(Query);
+			
+			return rs;
+			
+		}catch (SQLException SQL_e){
+			return null;
+		}
+	}
+	
 	public boolean isConnected(){
 		try{
 			return !connection.isClosed();
@@ -54,5 +68,4 @@ public class jdbc{
 	public Connection getConnection(){
 		return connection;
 	}
-	
 }
