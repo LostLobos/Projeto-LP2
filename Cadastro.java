@@ -15,7 +15,7 @@ public class Cadastro extends JFrame{
 		
 		this.previousFrame = previousFrame;
 		
-		setSize(400,400);
+		setSize(400,200);
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(new BorderLayout(20,20));
@@ -26,6 +26,7 @@ public class Cadastro extends JFrame{
 		// Constrói o Layout da Tela.
 		construirLayout();
 		
+		// Remove todos os Espaços vázios e encolhe a Aplicação.
 		// pack();
 	}
 	
@@ -43,7 +44,7 @@ public class Cadastro extends JFrame{
 		// Instancia um Novo TextField para o Usuário.
 		usuarioTF = new JTextField("",5);
 		
-		// Instancia um Novo TextField para a Senha.
+		// Instancia um Novo TextField para o Nome.
 		nomeTF = new JTextField("",5);
 
 		// Instancia um Novo TextField para a Senha.
@@ -91,7 +92,7 @@ public class Cadastro extends JFrame{
 		
 	}
 
-	// Evento de Clique do Botão LOGIN.
+	// Evento de Clique do Botão CADASTRAR.
 	private void EnviarClick(){
 		
 		// Tratamento de ERROR Básico.
@@ -129,10 +130,12 @@ public class Cadastro extends JFrame{
 					// Monta a Operação da QUERY.
 					Query = "Insert INTO Usuarios (Usuario,Nome,Senha) VALUES (" + formatedUser + "," + formatedName + "," + formatedPass + ")";
 					
-					// Executa a Query e Retorna um ResultSet contendo seu Resultado.
+					// Executa a Query e Retorna o Número de Linhas Afetadas pela Query ( No caso do Cadastro, apenas 1 ).
 					int rowsChanged = conn.updateQuery(Query);
 					
 					JOptionPane.showMessageDialog(this, "Cadastro Efetuado com Sucesso!","Sucesso",JOptionPane.INFORMATION_MESSAGE);
+					
+					VoltarClick();
 				}
 				
 			}catch(SQLException SQL_e){
@@ -143,6 +146,7 @@ public class Cadastro extends JFrame{
 		}		
 	}
 	
+	// Evento de Clique do Botão VOLTAR
 	private void VoltarClick(){
 		previousFrame.show(true);
 		close();

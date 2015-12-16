@@ -13,7 +13,7 @@ public class Login extends JFrame{
 		
 		super(titulo);
 		
-		setSize(400,400);
+		setSize(400,200);
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(new BorderLayout(20,20));
@@ -24,6 +24,7 @@ public class Login extends JFrame{
 		// Constrói o Layout da Tela.
 		construirLayout();
 		
+		// Remove todos os Espaços vázios e encolhe a Aplicação.
 		// pack();
 	}
 	

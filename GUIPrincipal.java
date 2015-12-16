@@ -127,6 +127,8 @@ public class GUIPrincipal extends JFrame{
 				// Executa a Query e Retorna um ResultSet contendo seu Resultado.
 				int rowsChanged = conn.updateQuery(Query);
 				
+				mensagemTF.setText("");
+				
 				JOptionPane.showMessageDialog(this, "Mensagem Enviada com Sucesso!","Sucesso",JOptionPane.INFORMATION_MESSAGE);
 				
 			}catch(SQLException SQL_e){
