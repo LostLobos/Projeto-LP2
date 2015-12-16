@@ -43,18 +43,14 @@ public class jdbc{
 		}
 	}
 	
-	public ResultSet runQuery(String Query){
+	public ResultSet runQuery(String Query) throws SQLException{
 		
-		try{
-			Statement stmt = connection.createStatement();
+		Statement stmt = connection.createStatement();
+		
+		ResultSet rs = stmt.executeQuery(Query);
+		
+		return rs;
 			
-			ResultSet rs = stmt.executeQuery(Query);
-			
-			return rs;
-			
-		}catch (SQLException SQL_e){
-			return null;
-		}
 	}
 	
 	public boolean isConnected(){

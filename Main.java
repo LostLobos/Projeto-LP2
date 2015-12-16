@@ -1,25 +1,12 @@
 import java.util.*;
+import javax.swing.*;
 
 public class Main{
 	
 	public static void main(String Args[]){
 		
-		jdbc conn = new jdbc(jdbc.MySQL);
+		Tela tela = new Tela("Login");
 		
-		conn.connect();
-		
-		if (conn.isConnected())
-			System.out.println("Conectado");
-		else
-			System.out.println("Não Conectado");
-		
-		conn.close();
-		
-		if (conn.isConnected())
-			System.out.println("Conectado");
-		else
-			System.out.println("Não Conectado");
-		
-		System.out.println("Hello World");
+		tela.show(true);
 	}
 }
