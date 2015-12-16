@@ -49,3 +49,9 @@ CREATE TABLE `projetolp2`.`Usuarios` ( `id_usuario` INT NOT NULL AUTO_INCREMENT 
 ```
 
 ### Tabela Chat
+
+```
+
+CREATE TABLE `projetolp2`.`Chat` ( `id_mensagem` INT NOT NULL AUTO_INCREMENT , `Nome` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL , `Mensagem` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL , PRIMARY KEY (`id_mensagem`)) ENGINE = InnoDB;
+
+```
