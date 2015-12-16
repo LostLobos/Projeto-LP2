@@ -3,15 +3,17 @@ import java.awt.BorderLayout;
 import java.awt.event.*;
 import java.sql.*;
 
-public class Login extends JFrame{
+public class Cadastro extends JFrame{
 	
-	private JTextField usuarioTF,senhaTF;
-	private JButton logarB,cadastrarB;
-	private JFrame nextFrame;
+	private JTextField usuarioTF,nomeTF,senhaTF;
+	private JButton enviarB,voltarB;
+	private JFrame previousFrame;
 	
-	public Login(String titulo){
+	public Cadastro(String titulo,JFrame previousFrame){
 		
 		super(titulo);
+		
+		this.previousFrame = previousFrame;
 		
 		setSize(400,400);
 		setResizable(false);
@@ -40,32 +42,35 @@ public class Login extends JFrame{
 		
 		// Instancia um Novo TextField para o Usuário.
 		usuarioTF = new JTextField("",5);
+		
+		// Instancia um Novo TextField para a Senha.
+		nomeTF = new JTextField("",5);
 
 		// Instancia um Novo TextField para a Senha.
 		senhaTF = new JTextField("",5);
 		
-		// Instancia o Botão de Login.
-		logarB = new JButton("Login");
+		// Instancia o Botão de Cadastro.
+		enviarB = new JButton("Cadastrar");
 		
 		// Cria uma Classe Anônima para adicionar um Listener para o Botão.
-		logarB.addActionListener(new ActionListener(){
+		enviarB.addActionListener(new ActionListener(){
 			
 			@Override
 			public void actionPerformed(ActionEvent e){
-				LoginClick();
+				EnviarClick();
 			}
 			
 		});
 		
-		// Instancia o Botão de Cadastro
-		cadastrarB = new JButton("Cadastrar");
+		// Instancia o Botão de Cadastro.
+		voltarB = new JButton("Voltar");
 		
 		// Cria uma Classe Anônima para adicionar um Listener para o Botão.
-		cadastrarB.addActionListener(new ActionListener(){
+		voltarB.addActionListener(new ActionListener(){
 			
 			@Override
 			public void actionPerformed(ActionEvent e){
-				CadastrarClick();
+				VoltarClick();
 			}
 			
 		});
@@ -74,10 +79,12 @@ public class Login extends JFrame{
 		
 		painel.add(new JLabel("Usuario"));
 		painel.add(usuarioTF);
+		painel.add(new JLabel("Nome"));
+		painel.add(nomeTF);
 		painel.add(new JLabel("Senha"));
 		painel.add(senhaTF);
-		painel2.add(logarB);
-		painel2.add(cadastrarB);
+		painel2.add(enviarB);
+		painel2.add(voltarB);
 	
 		add(painel,BorderLayout.NORTH);
 		add(painel2,BorderLayout.CENTER);
@@ -85,11 +92,11 @@ public class Login extends JFrame{
 	}
 
 	// Evento de Clique do Botão LOGIN.
-	private void LoginClick(){
+	private void EnviarClick(){
 		
 		// Tratamento de ERROR Básico.
-		if (usuarioTF.getText().compareTo("") == 0 || senhaTF.getText().compareTo("") == 0)
-			JOptionPane.showMessageDialog(this, "Usuario ou Senha Invalidos!","Error",JOptionPane.ERROR_MESSAGE);
+		if (usuarioTF.getText().compareTo("") == 0 || senhaTF.getText().compareTo("") == 0 || nomeTF.getText().compareTo("") == 0)
+			JOptionPane.showMessageDialog(this, "Preencha todos os Campos Corretamente!","Error",JOptionPane.ERROR_MESSAGE);
 		else{
 			// Tenta Rodar a QUERY se não estoura uma Exceção.
 			try{
@@ -108,31 +115,24 @@ public class Login extends JFrame{
 				// Executa a Query e Retorna um ResultSet contendo seu Resultado.
 				ResultSet result = conn.selectQuery(Query);
 				
-				// Caso não exista Rows da Operação, exibe um ERROR na Tela.
-				if (!result.next())
-					JOptionPane.showMessageDialog(this, "Usuario ou Senha Invalidos!","Error",JOptionPane.ERROR_MESSAGE);
+				// Caso o Cadastro já exista na Tabela exibe um ERROR na Tela.
+				if (result.next())
+					JOptionPane.showMessageDialog(this, "Usuario Existente!","Error",JOptionPane.ERROR_MESSAGE);
 				else{
 					
-					// Compara a Senha Escrita com a do Banco de Dados.
-					if (result.getString("Senha").compareTo(senhaTF.getText()) == 0){
+					// Formata o Nome do EditText para Evitar Problemas na QUERY.
+					String formatedName = "'" + nomeTF.getText() + "'";
 					
-						// Armazena o Resultado da Operação no Objeto Cliente para ser Usado posteriormente.
-						Cliente cliente = new Cliente(result.getString("Usuario"),result.getString("Nome"));
-						
-						// Armazena a próxima Tela ao nextFrame.
-						nextFrame = new GUIPrincipal(this,"Menu Principal - CHAT",cliente);
-						
-						// Seta a Visibilidade do JFrame seguinte para visível.
-						nextFrame.show(true);
-						
-						// Encerra a conexão com o Banco de Dados.
-						conn.close();
-						
-						// Deixa o JFrame atual Invisível.
-						show(false);
-					}
-					else
-						JOptionPane.showMessageDialog(this, "Usuario ou Senha Invalidos!","Error",JOptionPane.ERROR_MESSAGE);
+					// Formata a Senha do EditText para Evitar Problemas na QUERY.
+					String formatedPass = "'" + senhaTF.getText() + "'";
+					
+					// Monta a Operação da QUERY.
+					Query = "Insert INTO Usuarios (Usuario,Nome,Senha) VALUES (" + formatedUser + "," + formatedName + "," + formatedPass + ")";
+					
+					// Executa a Query e Retorna um ResultSet contendo seu Resultado.
+					int rowsChanged = conn.updateQuery(Query);
+					
+					JOptionPane.showMessageDialog(this, "Cadastro Efetuado com Sucesso!","Sucesso",JOptionPane.INFORMATION_MESSAGE);
 				}
 				
 			}catch(SQLException SQL_e){
@@ -143,13 +143,9 @@ public class Login extends JFrame{
 		}		
 	}
 	
-	private void CadastrarClick(){
-		// Deixa o JFrame atual Invisível.
-		show(false);
-		
-		Cadastro cadastro = new Cadastro("Tela de Cadastro",this);
-		
-		cadastro.show(true);
+	private void VoltarClick(){
+		previousFrame.show(true);
+		close();
 	}
 	
 	public void show(Boolean show){
@@ -160,7 +156,7 @@ public class Login extends JFrame{
 		dispose();
 	}
 	
-	public JFrame getNextFrame() throws NullPointerException{
-		return nextFrame;
+	public JFrame getPreviousFrame() throws NullPointerException{
+		return previousFrame;
 	}
 }
