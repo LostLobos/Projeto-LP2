@@ -7,6 +7,7 @@ Todas as Informações Pertinentes ao Projeto por  aqui.
 
 * Programa do Git: https://git-for-windows.github.io/
 * NotePad++ ("IDE"): https://notepad-plus-plus.org/download/v6.8.8.html
+* Ferramenta de Administração de MySQL ( Navicat ) : https://mega.co.nz/#!SxIUTIoS!l97zsOsySbkrhxTk5n_tA5z8wBtlPHSpjWv7PJj1ZPY
 
 ## Informações Importantes
 
