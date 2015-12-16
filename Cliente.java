@@ -15,7 +15,7 @@ public class Cliente{
 		return nome;
 	}
 	
-	public String setNome(String nome){
+	public void setNome(String nome){
 		this.nome = nome;
 	}
 	
@@ -23,7 +23,7 @@ public class Cliente{
 		return usuario;
 	}
 	
-	public String setUsuario(String nome){
+	public void setUsuario(String nome){
 		this.nome = nome;
 	}
 }

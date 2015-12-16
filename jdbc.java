@@ -25,32 +25,30 @@ public class jdbc{
 		}
 	}
 	
-	public void connect(){
-		try{
-			connection = DriverManager.getConnection(URL,USER,PASS);
-		}catch (SQLException SQL_e){
-			System.out.println("Error: Não foi possível Estabelecer uma Conexão! " + SQL_e.getMessage());
-			System.exit(1);
-		}
+	public void connect() throws SQLException{
+		
+		connection = DriverManager.getConnection(URL,USER,PASS);
 	}
 	
-	public void close(){
-		try{
-			connection.close();
-		}catch (SQLException SQL_e){
-			System.out.println("Error: Não foi possível Encerrar a Conexão! " + SQL_e.getMessage());
-			System.exit(1);
-		}
+	public void close() throws SQLException{
+		
+		connection.close();
 	}
 	
-	public ResultSet runQuery(String Query) throws SQLException{
+	public ResultSet selectQuery(String Query) throws SQLException{
 		
 		Statement stmt = connection.createStatement();
 		
 		ResultSet rs = stmt.executeQuery(Query);
 		
 		return rs;
-			
+	}
+	
+	public int updateQuery(String Query) throws SQLException{
+		
+		Statement stmt = connection.createStatement();
+		
+		return stmt.executeUpdate(Query);
 	}
 	
 	public boolean isConnected(){

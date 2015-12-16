@@ -3,12 +3,13 @@ import java.awt.BorderLayout;
 import java.awt.event.*;
 import java.sql.*;
 
-public class Tela extends JFrame{
+public class Login extends JFrame{
 	
 	private JTextField usuarioTF,senhaTF;
 	private JButton logarB,cadastrarB;
+	private JFrame nextFrame;
 	
-	public Tela(String titulo){
+	public Login(String titulo){
 		
 		super(titulo);
 		
@@ -83,44 +84,78 @@ public class Tela extends JFrame{
 		
 	}
 
-	private void LoginClick(){
+	// Evento de Clique do Botão LOGIN.
+	public void LoginClick(){
 		
+		// Tratamento de ERROR Básico.
 		if (usuarioTF.getText().compareTo("") == 0 || senhaTF.getText().compareTo("") == 0)
 			JOptionPane.showMessageDialog(this, "Usuario ou Senha Invalidos!","Error",JOptionPane.ERROR_MESSAGE);
 		else{
-		
-			jdbc conn = new jdbc(jdbc.MySQL);
-		
-			conn.connect();
-		
-			String Query = "Select * FROM Usuarios WHERE Usuario = iginho";
-			
+			// Tenta Rodar a QUERY se não estoura uma Exceção.
 			try{
-				ResultSet result = conn.runQuery(Query);
 				
+				jdbc conn = new jdbc(jdbc.MySQL);
+		
+				// Abre uma Conexão com o Banco de Dados.
+				conn.connect();
+				
+				// Formata o Usuário do EditText para Evitar Problemas na QUERY.
+				String formatedUser = "'" + usuarioTF.getText() + "'";
+			
+				// Monta a Operação da QUERY.
+				String Query = "Select * FROM Usuarios WHERE Usuario=" + formatedUser;
+				
+				// Executa a Query e Retorna um ResultSet contendo seu Resultado.
+				ResultSet result = conn.selectQuery(Query);
+				
+				// Caso não exista Rows da Operação, exibe um ERROR na Tela.
 				if (!result.next())
 					JOptionPane.showMessageDialog(this, "Usuario ou Senha Invalidos!","Error",JOptionPane.ERROR_MESSAGE);
 				else{
 					
-					Cliente cliente = new Cliente(result.getString("Usuario"),result.getString("Nome"));
+					// Compara a Senha Escrita com a do Banco de Dados.
+					if (result.getString("Senha").compareTo(senhaTF.getText()) == 0){
 					
-					System.out.println(cliente.getNome());
-					
-					conn.close();
+						// Armazena o Resultado da Operação no Objeto Cliente para ser Usado posteriormente.
+						Cliente cliente = new Cliente(result.getString("Usuario"),result.getString("Nome"));
+						
+						// Armazena a próxima Tela ao nextFrame.
+						nextFrame = new GUIPrincipal(this,"Menu Principal - CHAT",cliente);
+						
+						// Seta a Visibilidade do JFrame seguinte para visível.
+						nextFrame.show(true);
+						
+						// Encerra a conexão com o Banco de Dados.
+						conn.close();
+						
+						// Encerra o JFrame atual.
+						show(false);
+					}
+					else
+						JOptionPane.showMessageDialog(this, "Usuario ou Senha Invalidos!","Error",JOptionPane.ERROR_MESSAGE);
 				}
 				
 			}catch(SQLException SQL_e){
 				JOptionPane.showMessageDialog(this, "Ocorreu um Error ao Logar! Tente Novamente!\n" + SQL_e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
-				JOptionPane.showMessageDialog(this, usuarioTF.getText(),"Error",JOptionPane.ERROR_MESSAGE);
+			}catch (Exception e){
+				JOptionPane.showMessageDialog(this, "Ocorreu um Error ao Logar! Tente Novamente!\n" + e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
 			}
 		}		
 	}
 	
-	private void CadastrarClick(){
+	public void CadastrarClick(){
 		System.out.println("Cadastrar Clicado!");
 	}
 	
 	public void show(Boolean show){
 		setVisible(show);
+	}
+	
+	public void close(){
+		dispose();
+	}
+	
+	public JFrame getNextFrame() throws NullPointerException{
+		return nextFrame;
 	}
 }
