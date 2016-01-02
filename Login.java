@@ -1,7 +1,9 @@
 import javax.swing.*;
+import java.awt.Color;
 import java.awt.BorderLayout;
 import java.awt.event.*;
 import java.sql.*;
+
 
 public class Login extends JFrame{
 	
@@ -13,7 +15,9 @@ public class Login extends JFrame{
 		
 		super(titulo);
 		
-		setSize(400,200);
+		
+		
+		setSize(500,350);
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(new BorderLayout(20,20));
@@ -30,11 +34,16 @@ public class Login extends JFrame{
 	
 	private void construirLayout(){
 		
+		Color fundoRed = new Color(21,48,93);
+		
 		// Painel dos EditTexts e Labels.
 		JPanel painel = new JPanel();
 		
 		// Associa o Layout BoxLayout ao JPanel
 		painel.setLayout(new BoxLayout(painel,BoxLayout.Y_AXIS));
+		painel.setBackground(fundoRed);
+	
+		
 		
 		// Painel dos Botões.
 		JPanel painel2 = new JPanel();
