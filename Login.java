@@ -5,7 +5,7 @@ import java.sql.*;
 
 public class Login extends JFrame{
 	
-	private JTextField usuarioTF,senhaTF;
+	private JTextField usuarioTF,senhaTF,canalTF;
 	private JButton logarB,cadastrarB;
 	private JFrame nextFrame;
 	
@@ -45,6 +45,9 @@ public class Login extends JFrame{
 		// Instancia um Novo TextField para a Senha.
 		senhaTF = new JTextField("",5);
 		
+		// Instancia um Novo TextField para a Canal.
+		canalTF = new JTextField("",5);
+		
 		// Instancia o Botão de Login.
 		logarB = new JButton("Login");
 		
@@ -77,6 +80,8 @@ public class Login extends JFrame{
 		painel.add(usuarioTF);
 		painel.add(new JLabel("Senha"));
 		painel.add(senhaTF);
+		painel.add(new JLabel("Canal"));
+		painel.add(canalTF);
 		painel2.add(logarB);
 		painel2.add(cadastrarB);
 	
@@ -118,7 +123,7 @@ public class Login extends JFrame{
 					if (result.getString("Senha").compareTo(senhaTF.getText()) == 0){
 					
 						// Armazena o Resultado da Operação no Objeto Cliente para ser Usado posteriormente.
-						Cliente cliente = new Cliente(result.getString("Usuario"),result.getString("Nome"));
+						Cliente cliente = new Cliente(result.getString("Usuario"),result.getString("Nome"),canalTF.getText());
 						
 						// Armazena a próxima Tela ao nextFrame.
 						nextFrame = new GUIPrincipal(this,"Menu Principal - CHAT",cliente);

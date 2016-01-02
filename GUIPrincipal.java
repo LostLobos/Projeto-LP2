@@ -115,14 +115,17 @@ public class GUIPrincipal extends JFrame{
 				// Abre uma Conexão com o Banco de Dados.
 				conn.connect();
 				
-				// Formata o Usuário do EditText para Evitar Problemas na QUERY.
+				// Formata a Mensagem do EditText para Evitar Problemas na QUERY.
 				String formatedMessage = "'" + mensagemTF.getText() + "'";
 				
 				// Formata o Usuário do EditText para Evitar Problemas na QUERY.
 				String formatedUser = "'" + cliente.getNome() + "'";
+				
+				// Formata o Canal do EditText para Evitar Problemas na QUERY.
+				String formatedCanal = "'" + cliente.getCanal() + "'";
 			
 				// Monta a Operação da QUERY.
-				String Query = "Insert INTO Chat (Nome,Mensagem) VALUES (" + formatedUser + "," + formatedMessage + ")";
+				String Query = "Insert INTO Chat (Nome,Mensagem,Canal) VALUES (" + formatedUser + "," + formatedMessage + "," + formatedCanal + ")";
 				
 				// Executa a Query e Retorna um ResultSet contendo seu Resultado.
 				int rowsChanged = conn.updateQuery(Query);
@@ -159,9 +162,12 @@ public class GUIPrincipal extends JFrame{
 					
 							// Abre uma Conexão com o Banco de Dados.
 							conn.connect();
+							
+							// Formata o Canal do EditText para Evitar Problemas na QUERY.
+							String formatedCanal = "'" + cliente.getCanal() + "'";
 						
 							// Monta a Operação da QUERY.
-							String Query = "Select * FROM Chat";
+							String Query = "Select * FROM Chat WHERE Canal=" + formatedCanal;
 							
 							// Executa a Query e Retorna um ResultSet contendo seu Resultado.
 							ResultSet result = conn.selectQuery(Query);
