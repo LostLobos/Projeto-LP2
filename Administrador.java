@@ -1,4 +1,4 @@
-import java.awt.event.*;
+import javax.swing.*;
 import java.sql.*;
 import java.lang.StringBuilder;
 
@@ -28,8 +28,16 @@ public class Administrador{
 			// Formata o Canal do EditText para Evitar Problemas na QUERY.
 			String formatedCanal = "'" + cliente.getCanal() + "'";
 		
-			// Monta a Operação da QUERY.
-			String Query = "DELETE FROM Chat WHERE Canal=" + formatedCanal;
+			String Query = "";
+		
+			if (option == 0){
+				// Monta a Operação da QUERY para Deletar todas as Mensagens.
+				Query = "DELETE FROM Chat WHERE Canal=" + formatedCanal;
+			}
+			else{
+				// Monta a Operação da QUERY para Remover o Último item da categoria.
+				Query = "DELETE FROM Chat WHERE Canal=" + formatedCanal + " ORDER BY id_mensagem DESC LIMIT 1";
+			}
 			
 			// Executa a Query e Retorna um ResultSet contendo seu Resultado.
 			int rowsChanged = conn.updateQuery(Query);

@@ -12,7 +12,7 @@ public class GUIPrincipal extends JFrame{
 	private JFrame parent,me;
 	private Cliente cliente;
 	private boolean threadRunning;
-	private static final int threadSleep = 5000;
+	private static final int threadSleep = 3000;
 	
 	public GUIPrincipal(JFrame parent, String titulo,Cliente cliente){
 		
@@ -101,15 +101,26 @@ public class GUIPrincipal extends JFrame{
 			
 			// Cria e adiciona um item simples para o menu
 			JMenuItem limparAction = new JMenuItem("Limpar Chat");
+			JMenuItem limparuAction = new JMenuItem("Apagar Ultima Mensagem");
 			
 			adminMenu.add(limparAction);
+			adminMenu.add(limparuAction);
 			
-			// Cria uma Classe Anônima para adicionar um Listener para a opção de Logout.
+			// Cria uma Classe Anônima para adicionar um Listener para a opção de Limpar CHAT.
 			limparAction.addActionListener(new ActionListener(){
 				
 				@Override
 				public void actionPerformed(ActionEvent e){
 					admin.clearChat(admin.CLEAR_ALL);
+				}
+			});
+			
+			// Cria uma Classe Anônima para adicionar um Listener para a opção de Apagar Última Mensagem.
+			limparuAction.addActionListener(new ActionListener(){
+				
+				@Override
+				public void actionPerformed(ActionEvent e){
+					admin.clearChat(admin.CLEAR_LAST);
 				}
 			});
 		}
