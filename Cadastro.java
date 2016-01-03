@@ -1,7 +1,8 @@
 import javax.swing.*;
-import java.awt.BorderLayout;
+import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
+
 
 
 public class Cadastro extends JFrame{
@@ -16,10 +17,10 @@ public class Cadastro extends JFrame{
 		
 		this.previousFrame = previousFrame;
 		
-		setSize(400,200);
+		setSize(400,358);
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setLayout(new BorderLayout(20,20));
+		setLayout(new BorderLayout(0,0));
 
 		// Centraliza a Tela em Relação ao Monitor quando ficar Visível.
 		setLocationRelativeTo(null);
@@ -35,27 +36,67 @@ public class Cadastro extends JFrame{
 		
 		Cor c = new Cor ();
 		
+		// Painel da imagem 
+		JPanel topo = new JPanel();
+		topo.setBackground(c.getCor(1));
+		
+		//Imagem Cadastro
+		JLabel iconCadastro = new JLabel();
+		ImageIcon img = new ImageIcon("imagem/cadastro.png");
+		iconCadastro.setIcon(img);
+		iconCadastro.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
 		// Painel dos EditTexts e Labels.
 		JPanel painel = new JPanel();
 		painel.setBackground(c.getCor(1));
 		
 		// Associa o Layout BoxLayout ao JPanel
-		painel.setLayout(new BoxLayout(painel,BoxLayout.Y_AXIS));
+		painel.setLayout(null);
 		
 		// Painel dos Botões.
 		JPanel painel2 = new JPanel();
+		painel2.setBackground(c.getCor(2));
 		
 		// Instancia um Novo TextField para o Usuário.
-		usuarioTF = new JTextField("",5);
+		usuarioTF = new JTextField("",15);
+		Dimension sizeUsarioTF = usuarioTF.getPreferredSize();
+		usuarioTF.setBounds(110,55,sizeUsarioTF.width,sizeUsarioTF.height);
+		
+		//Instancia uma Nova label para o Usuário
+		JLabel usuarioLB = new JLabel();
+		usuarioLB.setText("Usuario");
+		Dimension sizeUsuarioLB = usuarioLB.getPreferredSize();
+		usuarioLB.setBounds(110,35,sizeUsuarioLB.width,sizeUsarioTF.height);
+		usuarioLB.setForeground(c.getCor(2));
 		
 		// Instancia um Novo TextField para o Nome.
-		nomeTF = new JTextField("",5);
+		nomeTF = new JTextField("",15);
+		Dimension sizeNomeTF = nomeTF.getPreferredSize();
+		nomeTF.setBounds(110,105,sizeNomeTF.width,sizeNomeTF.height);
+		
+		//Instancia uma Nova label para o Usuário
+		JLabel nomeLB = new JLabel();
+		nomeLB.setText("Nome");
+		Dimension sizeNomeLB = nomeLB.getPreferredSize();
+		nomeLB.setBounds(110,85,sizeNomeLB.width,sizeNomeLB.height);
+		nomeLB.setForeground(c.getCor(2));
 
 		// Instancia um Novo TextField para a Senha.
-		senhaTF = new JTextField("",5);
+		senhaTF = new JPasswordField("",15);
+		Dimension sizeSenhaTF = senhaTF.getPreferredSize();
+		senhaTF.setBounds(110,155,sizeSenhaTF.width,sizeSenhaTF.height);
+		
+		//Instancia uma nova Label para a senha
+		JLabel senhaLB = new JLabel();
+		senhaLB.setText("Senha");
+		Dimension sizeSenhaLB = senhaLB.getPreferredSize();
+		senhaLB.setBounds(110,135,sizeSenhaLB.width,sizeSenhaLB.height);
+		senhaLB.setForeground(c.getCor(2));
 		
 		// Instancia o Botão de Cadastro.
 		enviarB = new JButton("Cadastrar");
+		enviarB.setForeground(c.getCor(2));
+		enviarB.setBackground(c.getCor(1));
 		
 		// Cria uma Classe Anônima para adicionar um Listener para o Botão.
 		enviarB.addActionListener(new ActionListener(){
@@ -69,6 +110,8 @@ public class Cadastro extends JFrame{
 		
 		// Instancia o Botão de Cadastro.
 		voltarB = new JButton("Voltar");
+		voltarB.setForeground(c.getCor(2));
+		voltarB.setBackground(c.getCor(1));
 		
 		// Cria uma Classe Anônima para adicionar um Listener para o Botão.
 		voltarB.addActionListener(new ActionListener(){
@@ -82,17 +125,19 @@ public class Cadastro extends JFrame{
 		
 		// Adiciona os Objetos aos Respectivos Painéis.
 		
-		painel.add(new JLabel("Usuario"));
+		topo.add(iconCadastro);
+		painel.add(usuarioLB);
 		painel.add(usuarioTF);
-		painel.add(new JLabel("Nome"));
+		painel.add(nomeLB);
 		painel.add(nomeTF);
-		painel.add(new JLabel("Senha"));
+		painel.add(senhaLB);
 		painel.add(senhaTF);
 		painel2.add(enviarB);
 		painel2.add(voltarB);
 	
-		add(painel,BorderLayout.NORTH);
-		add(painel2,BorderLayout.CENTER);
+		add(topo,BorderLayout.NORTH);
+		add(painel,BorderLayout.CENTER);
+		add(painel2,BorderLayout.SOUTH);
 		
 	}
 

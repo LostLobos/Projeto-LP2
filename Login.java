@@ -33,7 +33,7 @@ public class Login extends JFrame{
 	private void construirLayout(){
 		
 		Cor c = new Cor();
-			
+
 		
 		//Painel da Logo
 		JPanel topo = new JPanel();
