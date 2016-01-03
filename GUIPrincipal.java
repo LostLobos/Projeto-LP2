@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.event.*;
 import java.sql.*;
 import java.lang.StringBuilder;
+import java.awt.*;
 
 public class GUIPrincipal extends JFrame{
 	
@@ -151,17 +152,22 @@ public class GUIPrincipal extends JFrame{
 		// Invoca o Método para Construção e Inicialização do Menu.
 		construirMenu();
 		
+		Cor c = new Cor();
+		
 		// Painel dos EditTexts e Labels.
 		JPanel painel = new JPanel();
+		painel.setBackground(c.getCor(1));
 		
 		// Associa o Layout BoxLayout ao JPanel
 		painel.setLayout(new BoxLayout(painel,BoxLayout.Y_AXIS));
 		
 		// Painel dos Botões.
 		JPanel painel2 = new JPanel();
+		painel2.setBackground(c.getCor(1));
 		
 		// Instancia um Novo TextArea para o Chat ser mostrado.
 		chatTA = new JTextArea("");
+		chatTA.setBackground(c.getCor(2));
 		
 		// Habilita a Quebra automática de linha.
 		chatTA.setLineWrap(true);
@@ -175,15 +181,19 @@ public class GUIPrincipal extends JFrame{
 		
 		// Cria um ScrollBar para o TextArea.
 		JScrollPane scrollChat = new JScrollPane (chatTA,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollChat.setBackground(c.getCor(3));
 		
 		// Deixar o TextArea Visivel.
         scrollChat.setOpaque(false);
 		
 		// Instancia um Novo TextField para a Mensagem.
 		mensagemTF = new JTextField("",25);
+
 		
 		// Instancia o Botão de Login.
 		enviarB = new JButton("Enviar");
+		enviarB.setForeground(c.getCor(1));
+		enviarB.setBackground(c.getCor(2));
 		
 		// Cria uma Classe Anônima para adicionar um Listener para o Botão.
 		enviarB.addActionListener(new ActionListener(){
@@ -241,7 +251,7 @@ public class GUIPrincipal extends JFrame{
 				
 				mensagemTF.setText("");
 				
-				JOptionPane.showMessageDialog(this, "Mensagem Enviada com Sucesso!","Sucesso",JOptionPane.INFORMATION_MESSAGE);
+				//JOptionPane.showMessageDialog(this, "Mensagem Enviada com Sucesso!","Sucesso",JOptionPane.INFORMATION_MESSAGE);
 				
 			}catch(SQLException SQL_e){
 				JOptionPane.showMessageDialog(this, "Ocorreu um Error ao Enviar! Tente Novamente!\n" + SQL_e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
