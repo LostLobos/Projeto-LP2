@@ -13,10 +13,12 @@ public class Cadastro extends JFrame{
 	
 	public Cadastro(String titulo,JFrame previousFrame){
 		
+		// Invoca o Construtor do Pai.
 		super(titulo);
 		
 		this.previousFrame = previousFrame;
 		
+		// Configurações da Tela.
 		setSize(400,358);
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);

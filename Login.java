@@ -13,8 +13,10 @@ public class Login extends JFrame{
 	
 	public Login(String titulo){
 
+		// Invoca o construtor do Pai.
 		super(titulo);		
 		
+		// Configurações da Tela.
 		setSize(450,250);
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);

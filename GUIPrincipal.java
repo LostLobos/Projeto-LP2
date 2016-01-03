@@ -10,17 +10,15 @@ public class GUIPrincipal extends JFrame{
 	private JTextField mensagemTF;
 	private JTextArea chatTA;
 	private JButton enviarB;
-	private JFrame parent,me;
+	private JFrame parent;
 	private Cliente cliente;
 	private boolean threadRunning;
 	private static final int threadSleep = 3000;
 	
 	public GUIPrincipal(JFrame parent, String titulo,Cliente cliente){
 		
+		// Invoca o construtor do Pai.
 		super(titulo);
-		
-		// Guarda a Referência deste JFrame.
-		this.me = this;
 		
 		// Guarda a Referência do JFrame Pai.
 		this.parent = parent;
@@ -93,7 +91,8 @@ public class GUIPrincipal extends JFrame{
 		if (cliente.getPrivilegio().compareTo("Administrador") == 0){
 			
 			// Inicializa um Objeto Administrador, que é um Cliente.
-			Administrador admin = new Administrador(cliente,this);
+			// Note que aqui, o mesmo cliente será duas coisas: Cliente Comum e Administrador ao mesmo tempo.
+			Administrador admin = new Administrador(cliente);
 			
 			// Define e adiciona um Menu de DropDown.
 			JMenu adminMenu = new JMenu("Painel Administrativo");
@@ -113,8 +112,17 @@ public class GUIPrincipal extends JFrame{
 			limparAction.addActionListener(new ActionListener(){
 				
 				@Override
-				public void actionPerformed(ActionEvent e){
-					admin.clearChat(admin.CLEAR_ALL);
+				public void actionPerformed(ActionEvent event){
+					
+					try{
+						int rowsAffected = admin.clearChat(admin.CLEAR_ALL);
+						// Mostra a Mensagem de Sucesso.
+						JOptionPane.showMessageDialog(GUIPrincipal.this, "Mensagem(s) Apagada(s) com Sucesso!\n\n" + Integer.toString(rowsAffected) + " Mensagens Apagadas!","Sucesso",JOptionPane.INFORMATION_MESSAGE);
+					}catch(SQLException SQL_e){
+						JOptionPane.showMessageDialog(GUIPrincipal.this, "Ocorreu um Error ao Apagar! Tente Novamente!\n" + SQL_e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+					}catch (Exception e){
+						JOptionPane.showMessageDialog(GUIPrincipal.this, "Ocorreu um Error ao Apagar! Tente Novamente!\n" + e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+					}
 				}
 			});
 			
@@ -122,8 +130,17 @@ public class GUIPrincipal extends JFrame{
 			limparuAction.addActionListener(new ActionListener(){
 				
 				@Override
-				public void actionPerformed(ActionEvent e){
-					admin.clearChat(admin.CLEAR_LAST);
+				public void actionPerformed(ActionEvent event){
+					
+					try{
+						int rowsAffected = admin.clearChat(admin.CLEAR_LAST);
+						// Mostra a Mensagem de Sucesso.
+						JOptionPane.showMessageDialog(GUIPrincipal.this, "Mensagem(s) Apagada(s) com Sucesso!\n\n" + Integer.toString(rowsAffected) + " Mensagens Apagadas!","Sucesso",JOptionPane.INFORMATION_MESSAGE);
+					}catch(SQLException SQL_e){
+						JOptionPane.showMessageDialog(GUIPrincipal.this, "Ocorreu um Error ao Apagar! Tente Novamente!\n" + SQL_e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+					}catch (Exception e){
+						JOptionPane.showMessageDialog(GUIPrincipal.this, "Ocorreu um Error ao Apagar! Tente Novamente!\n" + e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+					}
 				}
 			});
 		}
@@ -284,16 +301,16 @@ public class GUIPrincipal extends JFrame{
 								chatTA.setText(mensagemChat.toString());
 								
 						}catch(SQLException SQL_e){
-							JOptionPane.showMessageDialog(me, "Ocorreu um Error ao Atualizar o Chat!\n" + SQL_e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(GUIPrincipal.this, "Ocorreu um Error ao Atualizar o Chat!\n" + SQL_e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
 						}catch (Exception e){
-							JOptionPane.showMessageDialog(me, "Ocorreu um Error ao Atualizar o Chat!\n" + e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(GUIPrincipal.this, "Ocorreu um Error ao Atualizar o Chat!\n" + e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
 						}
 						
 						// Faz a Thread atualizar a cada 5 segundos. ( 5000 ms )
 						sleep(threadSleep);						
 					}
 				}catch (InterruptedException i_e){
-					JOptionPane.showMessageDialog(me, "Ocorreu um Error Fatal ao Atualizar o Chat! Reinicie para Voltar a Funcionar\n" + i_e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(GUIPrincipal.this, "Ocorreu um Error Fatal ao Atualizar o Chat! Reinicie para Voltar a Funcionar\n" + i_e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
 					threadRunning = false;
 				}
 			}

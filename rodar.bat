@@ -53,7 +53,7 @@ echo --------------------------------------------------------------
 echo.
 echo.
 
-java -cp ;"C:\Users\dvanc\Documents\GitHub\Projeto-LP2\mysql-connector-java-5.1.38-bin.jar" Main
+java -cp ;"C:\Users\Igor\Desktop\Faculdade\LP2\Projeto\Projeto-LP2\mysql-connector-java-5.1.38-bin.jar" Main
 
 echo.
 echo.
