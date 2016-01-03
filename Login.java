@@ -15,8 +15,6 @@ public class Login extends JFrame{
 		
 		super(titulo);
 		
-		
-		
 		setSize(500,350);
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -43,8 +41,6 @@ public class Login extends JFrame{
 		painel.setLayout(new BoxLayout(painel,BoxLayout.Y_AXIS));
 		painel.setBackground(fundoRed);
 	
-		
-		
 		// Painel dos Botões.
 		JPanel painel2 = new JPanel();
 		
@@ -55,7 +51,7 @@ public class Login extends JFrame{
 		senhaTF = new JTextField("",5);
 		
 		// Instancia um Novo TextField para a Canal.
-		canalTF = new JTextField("",5);
+		canalTF = new JTextField("Global",5);
 		
 		// Instancia o Botão de Login.
 		logarB = new JButton("Login");
@@ -105,8 +101,10 @@ public class Login extends JFrame{
 		// Tratamento de ERROR Básico.
 		if (usuarioTF.getText().compareTo("") == 0 || senhaTF.getText().compareTo("") == 0)
 			JOptionPane.showMessageDialog(this, "Usuario ou Senha Invalidos!","Error",JOptionPane.ERROR_MESSAGE);
+		else if (canalTF.getText().isEmpty())
+			JOptionPane.showMessageDialog(this, "Canal Vazio! Digite o Nome do Canal que deseja Entrar!\n\nEx: UERJ, Noticias, etc...","Error",JOptionPane.ERROR_MESSAGE);
 		else{
-			// Tenta Rodar a QUERY se não estoura uma Exceção.
+			
 			try{
 				
 				jdbc conn = new jdbc(jdbc.MySQL);
@@ -135,7 +133,7 @@ public class Login extends JFrame{
 						Cliente cliente = new Cliente(result.getString("Usuario"),result.getString("Nome"),result.getString("Privilegio"),canalTF.getText());
 						
 						// Armazena a próxima Tela ao nextFrame.
-						nextFrame = new GUIPrincipal(this,"Menu Principal - CHAT",cliente);
+						nextFrame = new GUIPrincipal(this,"CHAT - Canal: " + canalTF.getText(),cliente);
 						
 						// Seta a Visibilidade do JFrame seguinte para visível.
 						nextFrame.show(true);
