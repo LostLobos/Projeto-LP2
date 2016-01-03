@@ -69,16 +69,40 @@ public class Login extends JFrame{
 		usuarioTF = new JTextField("Usuario",15);
 		Dimension sizeTxt = usuarioTF.getPreferredSize();
 		usuarioTF.setBounds(85,15,sizeTxt.width,sizeTxt.height);
+		
+		// Cria uma Classe Anônima para adicionar um Listener para o Campo Usuario.
+		usuarioTF.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e){
+                usuarioTF.setText("");
+            }
+        });
 
 		// Instancia um Novo TextField para a Senha.
 		senhaTF = new JTextField("Senha",15);
 		Dimension sizeTxt2 = senhaTF.getPreferredSize();
 		senhaTF.setBounds(85,45,sizeTxt2.width,sizeTxt2.height);
 		
+		// Cria uma Classe Anônima para adicionar um Listener para o Campo Senha.
+		senhaTF.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e){
+                senhaTF.setText("");
+            }
+        });
+		
 		// Instancia um Novo TextField para a Canal.
 		canalTF = new JTextField("Global",15);
 		Dimension sizeTxt3 = canalTF.getPreferredSize();
 		canalTF.setBounds(85,75,sizeTxt3.width,sizeTxt3.height);
+		
+		// Cria uma Classe Anônima para adicionar um Listener para o Campo Canal.
+		canalTF.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e){
+                canalTF.setText("");
+            }
+        });
 				
 		// Instancia o Botão de Login.
 		logarB = new JButton("Login");
@@ -111,7 +135,6 @@ public class Login extends JFrame{
 		});
 		
 		// Adiciona os Objetos aos Respectivos Painéis.
-		
 
 		painel.add(usuarioTF);
 		painel.add(senhaTF);
@@ -122,7 +145,6 @@ public class Login extends JFrame{
 		add(topo,BorderLayout.NORTH);
 		add(painel,BorderLayout.CENTER);
 		add(painel2,BorderLayout.SOUTH);
-		
 	}
 
 	// Evento de Clique do Botão LOGIN.
