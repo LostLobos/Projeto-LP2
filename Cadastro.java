@@ -3,6 +3,7 @@ import java.awt.BorderLayout;
 import java.awt.event.*;
 import java.sql.*;
 
+
 public class Cadastro extends JFrame{
 	
 	private JTextField usuarioTF,nomeTF,senhaTF;
@@ -19,7 +20,7 @@ public class Cadastro extends JFrame{
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(new BorderLayout(20,20));
-		
+
 		// Centraliza a Tela em Relação ao Monitor quando ficar Visível.
 		setLocationRelativeTo(null);
 		
@@ -32,8 +33,11 @@ public class Cadastro extends JFrame{
 	
 	private void construirLayout(){
 		
+		Cor c = new Cor ();
+		
 		// Painel dos EditTexts e Labels.
 		JPanel painel = new JPanel();
+		painel.setBackground(c.getCor(1));
 		
 		// Associa o Layout BoxLayout ao JPanel
 		painel.setLayout(new BoxLayout(painel,BoxLayout.Y_AXIS));
