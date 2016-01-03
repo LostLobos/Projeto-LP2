@@ -1,9 +1,9 @@
 import javax.swing.*;
-import java.awt.Color;
+import java.awt.*;
 import java.awt.BorderLayout;
 import java.awt.event.*;
 import java.sql.*;
-
+import java.awt.GridLayout;
 
 public class Login extends JFrame{
 	
@@ -13,14 +13,12 @@ public class Login extends JFrame{
 	
 	public Login(String titulo){
 		
-		super(titulo);
+		super(titulo);		
 		
-		
-		
-		setSize(500,350);
+		setSize(350,250);
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setLayout(new BorderLayout(20,20));
+		setLayout(new BorderLayout(0,0));
 		
 		// Centraliza a Tela em Relação ao Monitor quando ficar Visível.
 		setLocationRelativeTo(null);
@@ -34,31 +32,59 @@ public class Login extends JFrame{
 	
 	private void construirLayout(){
 		
-		Color fundoRed = new Color(21,48,93);
+		Color fundoAzul = new Color(21,48,93);
+		Color fundoVerde = new Color(96,178,164);
+		Color fundoBranco = new Color(204,213,217);
 		
+		
+		//Painel da Logo
+		JPanel topo = new JPanel();
+		topo.setBackground(fundoAzul);
+		
+		JLabel logo = new JLabel();
+		ImageIcon imgLogo = new ImageIcon("imagem/logo.png");
+		
+		logo.setIcon(imgLogo);
+		logo.setAlignmentX(Component.CENTER_ALIGNMENT);
+		topo.add(logo);
+		
+			
 		// Painel dos EditTexts e Labels.
 		JPanel painel = new JPanel();
 		
+		
 		// Associa o Layout BoxLayout ao JPanel
-		painel.setLayout(new BoxLayout(painel,BoxLayout.Y_AXIS));
-		painel.setBackground(fundoRed);
+		//painel.setLayout(new BoxLayout(painel,BoxLayout.Y_AXIS));
+		painel.setLayout(null);
+		painel.setBackground(fundoAzul);
+		
+		
 	
-		
-		
 		// Painel dos Botões.
 		JPanel painel2 = new JPanel();
+		painel2.setBackground(fundoAzul);
 		
 		// Instancia um Novo TextField para o Usuário.
-		usuarioTF = new JTextField("",5);
+		usuarioTF = new JTextField("Usuario",15);
+		Dimension sizeTxt = usuarioTF.getPreferredSize();
+		usuarioTF.setBounds(85,15,sizeTxt.width,sizeTxt.height);
 
 		// Instancia um Novo TextField para a Senha.
-		senhaTF = new JTextField("",5);
+		senhaTF = new JTextField("Senha",15);
+		Dimension sizeTxt2 = senhaTF.getPreferredSize();
+		senhaTF.setBounds(85,45,sizeTxt2.width,sizeTxt2.height);
 		
 		// Instancia um Novo TextField para a Canal.
-		canalTF = new JTextField("",5);
+		canalTF = new JTextField("Canal",15);
+		Dimension sizeTxt3 = canalTF.getPreferredSize();
+		canalTF.setBounds(85,75,sizeTxt3.width,sizeTxt3.height);
+		
+		
 		
 		// Instancia o Botão de Login.
 		logarB = new JButton("Login");
+		logarB.setForeground(fundoAzul);
+		logarB.setBackground(fundoBranco);
 		
 		// Cria uma Classe Anônima para adicionar um Listener para o Botão.
 		logarB.addActionListener(new ActionListener(){
@@ -72,6 +98,8 @@ public class Login extends JFrame{
 		
 		// Instancia o Botão de Cadastro
 		cadastrarB = new JButton("Cadastrar");
+		cadastrarB.setForeground(fundoAzul);
+		cadastrarB.setBackground(fundoBranco);
 		
 		// Cria uma Classe Anônima para adicionar um Listener para o Botão.
 		cadastrarB.addActionListener(new ActionListener(){
@@ -85,17 +113,16 @@ public class Login extends JFrame{
 		
 		// Adiciona os Objetos aos Respectivos Painéis.
 		
-		painel.add(new JLabel("Usuario"));
+
 		painel.add(usuarioTF);
-		painel.add(new JLabel("Senha"));
 		painel.add(senhaTF);
-		painel.add(new JLabel("Canal"));
 		painel.add(canalTF);
 		painel2.add(logarB);
 		painel2.add(cadastrarB);
 	
-		add(painel,BorderLayout.NORTH);
-		add(painel2,BorderLayout.CENTER);
+		add(topo,BorderLayout.NORTH);
+		add(painel,BorderLayout.CENTER);
+		add(painel2,BorderLayout.SOUTH);
 		
 	}
 
