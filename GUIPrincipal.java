@@ -5,6 +5,7 @@ import java.awt.event.*;
 import java.sql.*;
 import java.lang.StringBuilder;
 import java.awt.*;
+import javax.swing.border.Border;
 
 public class GUIPrincipal extends JFrame{
 	
@@ -166,7 +167,8 @@ public class GUIPrincipal extends JFrame{
 		painel2.setBackground(c.getCor(1));
 		
 		// Instancia um Novo TextArea para o Chat ser mostrado.
-		chatTA = new JTextArea("");
+		chatTA = new JTextArea(50,50);
+		// Define a cor de fundo do TextArea.
 		chatTA.setBackground(c.getCor(2));
 		
 		// Habilita a Quebra automática de linha.
