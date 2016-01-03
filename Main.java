@@ -9,6 +9,6 @@ public class Main{
 		Login login = new Login("Login");
 		
 		// Seta sua Visibilidade para true.
-		login.show(true);
+		login.setVisible(true);
 	}
 }

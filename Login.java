@@ -12,7 +12,6 @@ public class Login extends JFrame{
 	private JFrame nextFrame;
 	
 	public Login(String titulo){
-		
 
 		super(titulo);		
 		
@@ -188,13 +187,13 @@ public class Login extends JFrame{
 						nextFrame = new GUIPrincipal(this,"CHAT - Canal: " + canalTF.getText(),cliente);
 						
 						// Seta a Visibilidade do JFrame seguinte para visível.
-						nextFrame.show(true);
+						nextFrame.setVisible(true);
 						
 						// Encerra a conexão com o Banco de Dados.
 						conn.close();
 						
 						// Deixa o JFrame atual Invisível.
-						show(false);
+						setVisible(false);
 					}
 					else
 						JOptionPane.showMessageDialog(this, "Usuario ou Senha Invalidos!","Error",JOptionPane.ERROR_MESSAGE);
@@ -210,15 +209,11 @@ public class Login extends JFrame{
 	
 	private void CadastrarClick(){
 		// Deixa o JFrame atual Invisível.
-		show(false);
+		setVisible(false);
 		
 		Cadastro cadastro = new Cadastro("Tela de Cadastro",this);
 		
-		cadastro.show(true);
-	}
-	
-	public void show(Boolean show){
-		setVisible(show);
+		cadastro.setVisible(true);
 	}
 	
 	public void close(){

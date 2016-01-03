@@ -153,12 +153,8 @@ public class Cadastro extends JFrame{
 	
 	// Evento de Clique do Botão VOLTAR
 	private void VoltarClick(){
-		previousFrame.show(true);
+		previousFrame.setVisible(true);
 		close();
-	}
-	
-	public void show(Boolean show){
-		setVisible(show);
 	}
 	
 	public void close(){

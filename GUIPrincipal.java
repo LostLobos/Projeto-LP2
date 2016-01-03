@@ -69,7 +69,7 @@ public class GUIPrincipal extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e){
-				parent.show(true);
+				parent.setVisible(true);
 				close();
 			}
 			
@@ -301,10 +301,6 @@ public class GUIPrincipal extends JFrame{
 		
 		// Inicia a Thread.
 		thread.start();
-	}
-	
-	public void show(Boolean show){
-		setVisible(show);
 	}
 	
 	public void close(){
