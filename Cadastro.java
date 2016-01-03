@@ -150,51 +150,73 @@ public class Cadastro extends JFrame{
 		if (usuarioTF.getText().compareTo("") == 0 || senhaTF.getText().compareTo("") == 0 || nomeTF.getText().compareTo("") == 0)
 			JOptionPane.showMessageDialog(this, "Preencha todos os Campos Corretamente!","Error",JOptionPane.ERROR_MESSAGE);
 		else{
-			// Tenta Rodar a QUERY se não estoura uma Exceção.
-			try{
-				
-				jdbc conn = new jdbc(jdbc.MySQL);
-		
-				// Abre uma Conexão com o Banco de Dados.
-				conn.connect();
-				
-				// Formata o Usuário do EditText para Evitar Problemas na QUERY.
-				String formatedUser = "'" + usuarioTF.getText() + "'";
 			
-				// Monta a Operação da QUERY.
-				String Query = "Select * FROM Usuarios WHERE Usuario=" + formatedUser;
+			usuarioTF.setEnabled(false);
+			nomeTF.setEnabled(false);
+			senhaTF.setEnabled(false);
+			enviarB.setEnabled(false);
+			voltarB.setEnabled(false);
+			
+			// Instancia uma Classe Anonima para a Thread.
+			Thread thread = new Thread(){
+
+				public void run(){
+					
+					// Tenta Rodar a QUERY se não estoura uma Exceção.
+					try{
+						
+						jdbc conn = new jdbc(jdbc.MySQL);
 				
-				// Executa a Query e Retorna um ResultSet contendo seu Resultado.
-				ResultSet result = conn.selectQuery(Query);
-				
-				// Caso o Cadastro já exista na Tabela exibe um ERROR na Tela.
-				if (result.next())
-					JOptionPane.showMessageDialog(this, "Usuario Existente!","Error",JOptionPane.ERROR_MESSAGE);
-				else{
+						// Abre uma Conexão com o Banco de Dados.
+						conn.connect();
+						
+						// Formata o Usuário do EditText para Evitar Problemas na QUERY.
+						String formatedUser = "'" + usuarioTF.getText() + "'";
 					
-					// Formata o Nome do EditText para Evitar Problemas na QUERY.
-					String formatedName = "'" + nomeTF.getText() + "'";
+						// Monta a Operação da QUERY.
+						String Query = "Select * FROM Usuarios WHERE Usuario=" + formatedUser;
+						
+						// Executa a Query e Retorna um ResultSet contendo seu Resultado.
+						ResultSet result = conn.selectQuery(Query);
+						
+						// Caso o Cadastro já exista na Tabela exibe um ERROR na Tela.
+						if (result.next())
+							JOptionPane.showMessageDialog(Cadastro.this, "Usuario Existente!","Error",JOptionPane.ERROR_MESSAGE);
+						else{
+							
+							// Formata o Nome do EditText para Evitar Problemas na QUERY.
+							String formatedName = "'" + nomeTF.getText() + "'";
+							
+							// Formata a Senha do EditText para Evitar Problemas na QUERY.
+							String formatedPass = "'" + senhaTF.getText() + "'";
+							
+							// Monta a Operação da QUERY.
+							Query = "Insert INTO Usuarios (Usuario,Nome,Senha,Privilegio) VALUES (" + formatedUser + "," + formatedName + "," + formatedPass + ",'Usuario')";
+							
+							// Executa a Query e Retorna o Número de Linhas Afetadas pela Query ( No caso do Cadastro, apenas 1 ).
+							int rowsChanged = conn.updateQuery(Query);
+							
+							JOptionPane.showMessageDialog(Cadastro.this, "Cadastro Efetuado com Sucesso!","Sucesso",JOptionPane.INFORMATION_MESSAGE);
+							
+							// Invoca o Método que retorna pra Tela de Login.
+							VoltarClick();
+						}
+						
+					}catch(SQLException SQL_e){
+						JOptionPane.showMessageDialog(Cadastro.this, "Ocorreu um Error ao Logar! Tente Novamente!\n" + SQL_e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+					}catch (Exception e){
+						JOptionPane.showMessageDialog(Cadastro.this, "Ocorreu um Error ao Logar! Tente Novamente!\n" + e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+					}
 					
-					// Formata a Senha do EditText para Evitar Problemas na QUERY.
-					String formatedPass = "'" + senhaTF.getText() + "'";
-					
-					// Monta a Operação da QUERY.
-					Query = "Insert INTO Usuarios (Usuario,Nome,Senha,Privilegio) VALUES (" + formatedUser + "," + formatedName + "," + formatedPass + ",'Usuario')";
-					
-					// Executa a Query e Retorna o Número de Linhas Afetadas pela Query ( No caso do Cadastro, apenas 1 ).
-					int rowsChanged = conn.updateQuery(Query);
-					
-					JOptionPane.showMessageDialog(this, "Cadastro Efetuado com Sucesso!","Sucesso",JOptionPane.INFORMATION_MESSAGE);
-					
-					// Invoca o Método que retorna pra Tela de Login.
-					VoltarClick();
+					usuarioTF.setEnabled(true);
+					nomeTF.setEnabled(true);
+					senhaTF.setEnabled(true);
+					enviarB.setEnabled(true);
+					voltarB.setEnabled(true);
 				}
-				
-			}catch(SQLException SQL_e){
-				JOptionPane.showMessageDialog(this, "Ocorreu um Error ao Logar! Tente Novamente!\n" + SQL_e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
-			}catch (Exception e){
-				JOptionPane.showMessageDialog(this, "Ocorreu um Error ao Logar! Tente Novamente!\n" + e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
-			}
+			};
+			
+			thread.start();
 		}		
 	}
 	

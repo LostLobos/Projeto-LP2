@@ -13,7 +13,7 @@ public class GUIPrincipal extends JFrame{
 	private JFrame parent;
 	private Cliente cliente;
 	private boolean threadRunning;
-	private static final int threadSleep = 3000;
+	private static final int threadSleep = 2000;
 	
 	public GUIPrincipal(JFrame parent, String titulo,Cliente cliente){
 		
@@ -195,6 +195,16 @@ public class GUIPrincipal extends JFrame{
 			
 		});
 		
+		// Cria uma Classe Anônima para adicionar um Listener para Enter no TextField de Mensagem.
+		mensagemTF.addActionListener(new ActionListener(){
+			
+			@Override
+			public void actionPerformed(ActionEvent e){
+				EnviarClick();
+			}
+			
+		});
+		
 		// Adiciona os Objetos aos Respectivos Painéis.
 		
 		painel2.add(mensagemTF);
@@ -203,7 +213,10 @@ public class GUIPrincipal extends JFrame{
 		painel.add(scrollChat);
 		painel.add(painel2);
 	
-		add(painel,BorderLayout.CENTER);		
+		add(painel,BorderLayout.CENTER);
+
+		// Coloca o Foco no EditText de Mensagem.
+		mensagemTF.requestFocus();
 	}
 
 	// Evento de Clique do Botão ENVIAR.
@@ -215,42 +228,54 @@ public class GUIPrincipal extends JFrame{
 		else{
 			
 			enviarB.setEnabled(false);
+			mensagemTF.setEnabled(false);
 			
-			// Tenta Rodar a QUERY se não estoura uma Exceção.
-			try{
-				
-				jdbc conn = new jdbc(jdbc.MySQL);
-		
-				// Abre uma Conexão com o Banco de Dados.
-				conn.connect();
-				
-				// Formata a Mensagem do EditText para Evitar Problemas na QUERY.
-				String formatedMessage = "'" + mensagemTF.getText() + "'";
-				
-				// Formata o Usuário do EditText para Evitar Problemas na QUERY.
-				String formatedUser = "'" + cliente.getNome() + "'";
-				
-				// Formata o Canal do EditText para Evitar Problemas na QUERY.
-				String formatedCanal = "'" + cliente.getCanal() + "'";
+			// Instancia uma Classe Anônima de Thread
+			Thread thread = new Thread(){
 			
-				// Monta a Operação da QUERY.
-				String Query = "Insert INTO Chat (Nome,Mensagem,Canal) VALUES (" + formatedUser + "," + formatedMessage + "," + formatedCanal + ")";
+				@Override
+				public void run(){
+					// Tenta Rodar a QUERY se não estoura uma Exceção.
+					try{
+						
+						jdbc conn = new jdbc(jdbc.MySQL);
 				
-				// Executa a Query e Retorna um ResultSet contendo seu Resultado.
-				int rowsChanged = conn.updateQuery(Query);
-				
-				mensagemTF.setText("");
-				
-				JOptionPane.showMessageDialog(this, "Mensagem Enviada com Sucesso!","Sucesso",JOptionPane.INFORMATION_MESSAGE);
-				
-			}catch(SQLException SQL_e){
-				JOptionPane.showMessageDialog(this, "Ocorreu um Error ao Enviar! Tente Novamente!\n" + SQL_e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
-			}catch (Exception e){
-				JOptionPane.showMessageDialog(this, "Ocorreu um Error ao Enviar! Tente Novamente!\n" + e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
-			}
+						// Abre uma Conexão com o Banco de Dados.
+						conn.connect();
+						
+						// Formata a Mensagem do EditText para Evitar Problemas na QUERY.
+						String formatedMessage = "'" + mensagemTF.getText() + "'";
+						
+						// Formata o Usuário do EditText para Evitar Problemas na QUERY.
+						String formatedUser = "'" + cliente.getNome() + "'";
+						
+						// Formata o Canal do EditText para Evitar Problemas na QUERY.
+						String formatedCanal = "'" + cliente.getCanal() + "'";
+					
+						// Monta a Operação da QUERY.
+						String Query = "Insert INTO Chat (Nome,Mensagem,Canal) VALUES (" + formatedUser + "," + formatedMessage + "," + formatedCanal + ")";
+						
+						// Executa a Query e Retorna um ResultSet contendo seu Resultado.
+						int rowsChanged = conn.updateQuery(Query);
+						
+						mensagemTF.setText("");
+						
+						// JOptionPane.showMessageDialog(this, "Mensagem Enviada com Sucesso!","Sucesso",JOptionPane.INFORMATION_MESSAGE);
+						
+					}catch(SQLException SQL_e){
+						JOptionPane.showMessageDialog(GUIPrincipal.this, "Ocorreu um Error ao Enviar! Tente Novamente!\n" + SQL_e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+					}catch (Exception e){
+						JOptionPane.showMessageDialog(GUIPrincipal.this, "Ocorreu um Error ao Enviar! Tente Novamente!\n" + e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+					}
+					
+					enviarB.setEnabled(true);
+					mensagemTF.setEnabled(true);
+					mensagemTF.requestFocus();
+				}
+			};
+			
+			thread.start();
 		}
-		
-		enviarB.setEnabled(true);
 	}		
 	
 	private void AtualizarMensagens(){
@@ -258,7 +283,7 @@ public class GUIPrincipal extends JFrame{
 		// Instancia uma Classe Anônima de Thread
 		Thread thread = new Thread(){
 			
-			// Implementa seu Método Run.
+			@Override
 			public void run(){	
 			
 				// Caso a THREAD estoure Exceção, encerra tudo.
@@ -321,6 +346,7 @@ public class GUIPrincipal extends JFrame{
 	}
 	
 	public void close(){
+		threadRunning = false;
 		dispose();
 	}
 }

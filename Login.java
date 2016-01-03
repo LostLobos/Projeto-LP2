@@ -34,9 +34,9 @@ public class Login extends JFrame{
 	
 	private void construirLayout(){
 		
+		// Instanci auma classe de cor
 		Cor c = new Cor();
 
-		
 		//Painel da Logo
 		JPanel topo = new JPanel();
 		topo.setBackground(c.getCor(1));
@@ -173,54 +173,75 @@ public class Login extends JFrame{
 			JOptionPane.showMessageDialog(this, "Canal Vazio! Digite o Nome do Canal que deseja Entrar!\n\nEx: UERJ, Noticias, etc...","Error",JOptionPane.ERROR_MESSAGE);
 		else{
 			
-			try{
-				
-				jdbc conn = new jdbc(jdbc.MySQL);
-		
-				// Abre uma Conexão com o Banco de Dados.
-				conn.connect();
-				
-				// Formata o Usuário do EditText para Evitar Problemas na QUERY.
-				String formatedUser = "'" + usuarioTF.getText() + "'";
+			usuarioTF.setEnabled(false);
+			senhaTF.setEnabled(false);
+			canalTF.setEnabled(false);
+			logarB.setEnabled(false);
+			cadastrarB.setEnabled(false);
 			
-				// Monta a Operação da QUERY.
-				String Query = "Select * FROM Usuarios WHERE Usuario=" + formatedUser;
+			// Instancia uma Classe Anônima de Thread
+			Thread thread = new Thread(){
+			
+				@Override
+				public void run(){
+					try{
+						
+						jdbc conn = new jdbc(jdbc.MySQL);
 				
-				// Executa a Query e Retorna um ResultSet contendo seu Resultado.
-				ResultSet result = conn.selectQuery(Query);
-				
-				// Caso não exista Rows da Operação, exibe um ERROR na Tela.
-				if (!result.next())
-					JOptionPane.showMessageDialog(this, "Usuario ou Senha Invalidos!","Error",JOptionPane.ERROR_MESSAGE);
-				else{
+						// Abre uma Conexão com o Banco de Dados.
+						conn.connect();
+						
+						// Formata o Usuário do EditText para Evitar Problemas na QUERY.
+						String formatedUser = "'" + usuarioTF.getText() + "'";
 					
-					// Compara a Senha Escrita com a do Banco de Dados.
-					if (result.getString("Senha").compareTo(senhaTF.getText()) == 0){
-					
-						// Armazena o Resultado da Operação no Objeto Cliente para ser Usado posteriormente.
-						Cliente cliente = new Cliente(result.getString("Usuario"),result.getString("Nome"),result.getString("Privilegio"),canalTF.getText());
+						// Monta a Operação da QUERY.
+						String Query = "Select * FROM Usuarios WHERE Usuario=" + formatedUser;
 						
-						// Armazena a próxima Tela ao nextFrame.
-						nextFrame = new GUIPrincipal(this,"CHAT - Canal: " + canalTF.getText(),cliente);
+						// Executa a Query e Retorna um ResultSet contendo seu Resultado.
+						ResultSet result = conn.selectQuery(Query);
 						
-						// Seta a Visibilidade do JFrame seguinte para visível.
-						nextFrame.setVisible(true);
+						// Caso não exista Rows da Operação, exibe um ERROR na Tela.
+						if (!result.next())
+							JOptionPane.showMessageDialog(Login.this, "Usuario ou Senha Invalidos!","Error",JOptionPane.ERROR_MESSAGE);
+						else{
+							
+							// Compara a Senha Escrita com a do Banco de Dados.
+							if (result.getString("Senha").compareTo(senhaTF.getText()) == 0){
+							
+								// Armazena o Resultado da Operação no Objeto Cliente para ser Usado posteriormente.
+								Cliente cliente = new Cliente(result.getString("Usuario"),result.getString("Nome"),result.getString("Privilegio"),canalTF.getText());
+								
+								// Armazena a próxima Tela ao nextFrame.
+								nextFrame = new GUIPrincipal(Login.this,"CHAT - Canal: " + canalTF.getText(),cliente);
+								
+								// Seta a Visibilidade do JFrame seguinte para visível.
+								nextFrame.setVisible(true);
+								
+								// Encerra a conexão com o Banco de Dados.
+								conn.close();
+								
+								// Deixa o JFrame atual Invisível.
+								setVisible(false);
+							}
+							else
+								JOptionPane.showMessageDialog(Login.this, "Usuario ou Senha Invalidos!","Error",JOptionPane.ERROR_MESSAGE);
+						}
 						
-						// Encerra a conexão com o Banco de Dados.
-						conn.close();
-						
-						// Deixa o JFrame atual Invisível.
-						setVisible(false);
+					}catch(SQLException SQL_e){
+						JOptionPane.showMessageDialog(Login.this, "Ocorreu um Error ao Logar! Tente Novamente!\n" + SQL_e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+					}catch (Exception e){
+						JOptionPane.showMessageDialog(Login.this, "Ocorreu um Error ao Logar! Tente Novamente!\n" + e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
 					}
-					else
-						JOptionPane.showMessageDialog(this, "Usuario ou Senha Invalidos!","Error",JOptionPane.ERROR_MESSAGE);
+					
+					usuarioTF.setEnabled(true);
+					senhaTF.setEnabled(true);
+					canalTF.setEnabled(true);
+					logarB.setEnabled(true);
+					cadastrarB.setEnabled(true);
 				}
-				
-			}catch(SQLException SQL_e){
-				JOptionPane.showMessageDialog(this, "Ocorreu um Error ao Logar! Tente Novamente!\n" + SQL_e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
-			}catch (Exception e){
-				JOptionPane.showMessageDialog(this, "Ocorreu um Error ao Logar! Tente Novamente!\n" + e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
-			}
+			};
+			
+			thread.start();
 		}		
 	}
 	
