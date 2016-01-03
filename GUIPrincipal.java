@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.text.DefaultCaret;
 import java.awt.BorderLayout;
 import java.awt.event.*;
 import java.sql.*;
@@ -12,7 +13,7 @@ public class GUIPrincipal extends JFrame{
 	private JFrame parent,me;
 	private Cliente cliente;
 	private boolean threadRunning;
-	private static final int threadSleep = 5000;
+	private static final int threadSleep = 3000;
 	
 	public GUIPrincipal(JFrame parent, String titulo,Cliente cliente){
 		
@@ -42,10 +43,96 @@ public class GUIPrincipal extends JFrame{
 		// Constrói o Layout da Tela.
 		construirLayout();
 		
+		// Realiza a Atualização das Mensagens.
 		AtualizarMensagens();
 	}
 	
+	private void construirMenu(){
+		
+		// Cria uma barra de menu para o JFrame
+        JMenuBar menuBar = new JMenuBar();
+
+		// Seta o MenuBar para o JFrame.
+		setJMenuBar(menuBar);
+		
+		// Define e adiciona um Menu de DropDown.
+		JMenu fileMenu = new JMenu("Arquivo");
+		
+		// Adiciona esse SubMenu.
+		menuBar.add(fileMenu);
+		
+		// Cria e adiciona um item simples para o menu
+        JMenuItem logoutAction = new JMenuItem("Logout");
+		
+		// Cria uma Classe Anônima para adicionar um Listener para a opção de Logout.
+		logoutAction.addActionListener(new ActionListener(){
+			
+			@Override
+			public void actionPerformed(ActionEvent e){
+				parent.show(true);
+				close();
+			}
+			
+		});
+		
+		JMenuItem closeAction = new JMenuItem("Sair e Fechar");
+		
+		// Cria uma Classe Anônima para adicionar um Listener para a opção de Sair.
+		closeAction.addActionListener(new ActionListener(){
+			
+			@Override
+			public void actionPerformed(ActionEvent e){
+				System.exit(1);
+			}
+		});
+		
+		fileMenu.add(logoutAction);
+		fileMenu.add(closeAction);
+		
+		// Caso o Privilégio seja Administrativo cria o Painel Administrativo para o Usuário.
+		if (cliente.getPrivilegio().compareTo("Administrador") == 0){
+			
+			// Inicializa um Objeto Administrador, que é um Cliente.
+			Administrador admin = new Administrador(cliente,this);
+			
+			// Define e adiciona um Menu de DropDown.
+			JMenu adminMenu = new JMenu("Painel Administrativo");
+			
+			// Adiciona esse SubMenu.
+			menuBar.add(adminMenu);
+			
+			// Cria e adiciona um item simples para o menu
+			JMenuItem limparAction = new JMenuItem("Limpar Chat");
+			JMenuItem limparuAction = new JMenuItem("Apagar Ultima Mensagem");
+			
+			// Adiciona os SubMenus na Categoria do Menu Principal "Painel Administrativo".
+			adminMenu.add(limparAction);
+			adminMenu.add(limparuAction);
+			
+			// Cria uma Classe Anônima para adicionar um Listener para a opção de Limpar CHAT.
+			limparAction.addActionListener(new ActionListener(){
+				
+				@Override
+				public void actionPerformed(ActionEvent e){
+					admin.clearChat(admin.CLEAR_ALL);
+				}
+			});
+			
+			// Cria uma Classe Anônima para adicionar um Listener para a opção de Apagar Última Mensagem.
+			limparuAction.addActionListener(new ActionListener(){
+				
+				@Override
+				public void actionPerformed(ActionEvent e){
+					admin.clearChat(admin.CLEAR_LAST);
+				}
+			});
+		}
+	}
+	
 	private void construirLayout(){
+		
+		// Invoca o Método para Construção e Inicialização do Menu.
+		construirMenu();
 		
 		// Painel dos EditTexts e Labels.
 		JPanel painel = new JPanel();
@@ -57,16 +144,22 @@ public class GUIPrincipal extends JFrame{
 		JPanel painel2 = new JPanel();
 		
 		// Instancia um Novo TextArea para o Chat ser mostrado.
-		chatTA = new JTextArea("",100,100);
+		chatTA = new JTextArea("");
+		
+		// Habilita a Quebra automática de linha.
+		chatTA.setLineWrap(true);
+		
+		// Faz com que o ScrollBar sempre acompanhe os textos.
+		DefaultCaret caret = (DefaultCaret) chatTA.getCaret();
+		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		
 		// Desabilita o Recurso de Edição do TextArea.
 		chatTA.setEditable(false);
 		
 		// Cria um ScrollBar para o TextArea.
-		JScrollPane scrollChat = new JScrollPane (chatTA,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		JScrollPane scrollChat = new JScrollPane (chatTA,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		
 		// Deixar o TextArea Visivel.
-		scrollChat.getViewport().setOpaque(false);
         scrollChat.setOpaque(false);
 		
 		// Instancia um Novo TextField para a Mensagem.
@@ -74,7 +167,6 @@ public class GUIPrincipal extends JFrame{
 		
 		// Instancia o Botão de Login.
 		enviarB = new JButton("Enviar");
-		
 		
 		// Cria uma Classe Anônima para adicionar um Listener para o Botão.
 		enviarB.addActionListener(new ActionListener(){
@@ -146,7 +238,7 @@ public class GUIPrincipal extends JFrame{
 	
 	private void AtualizarMensagens(){
 		
-		// Instancia uma Nova Thread
+		// Instancia uma Classe Anônima de Thread
 		Thread thread = new Thread(){
 			
 			// Implementa seu Método Run.

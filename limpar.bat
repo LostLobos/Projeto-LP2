@@ -22,5 +22,3 @@ echo.
 echo Remocao Concluida!
 echo.
 echo.
-
-pause

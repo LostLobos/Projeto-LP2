@@ -13,6 +13,7 @@ public class Login extends JFrame{
 	
 	public Login(String titulo){
 		
+
 		super(titulo);		
 		
 		setSize(350,250);
@@ -54,12 +55,12 @@ public class Login extends JFrame{
 		
 		
 		// Associa o Layout BoxLayout ao JPanel
+
 		//painel.setLayout(new BoxLayout(painel,BoxLayout.Y_AXIS));
 		painel.setLayout(null);
 		painel.setBackground(fundoAzul);
 		
-		
-	
+
 		// Painel dos Botões.
 		JPanel painel2 = new JPanel();
 		painel2.setBackground(fundoAzul);
@@ -75,12 +76,10 @@ public class Login extends JFrame{
 		senhaTF.setBounds(85,45,sizeTxt2.width,sizeTxt2.height);
 		
 		// Instancia um Novo TextField para a Canal.
-		canalTF = new JTextField("Canal",15);
+		canalTF = new JTextField("Global",15);
 		Dimension sizeTxt3 = canalTF.getPreferredSize();
 		canalTF.setBounds(85,75,sizeTxt3.width,sizeTxt3.height);
-		
-		
-		
+				
 		// Instancia o Botão de Login.
 		logarB = new JButton("Login");
 		logarB.setForeground(fundoAzul);
@@ -132,8 +131,10 @@ public class Login extends JFrame{
 		// Tratamento de ERROR Básico.
 		if (usuarioTF.getText().compareTo("") == 0 || senhaTF.getText().compareTo("") == 0)
 			JOptionPane.showMessageDialog(this, "Usuario ou Senha Invalidos!","Error",JOptionPane.ERROR_MESSAGE);
+		else if (canalTF.getText().isEmpty())
+			JOptionPane.showMessageDialog(this, "Canal Vazio! Digite o Nome do Canal que deseja Entrar!\n\nEx: UERJ, Noticias, etc...","Error",JOptionPane.ERROR_MESSAGE);
 		else{
-			// Tenta Rodar a QUERY se não estoura uma Exceção.
+			
 			try{
 				
 				jdbc conn = new jdbc(jdbc.MySQL);
@@ -159,10 +160,10 @@ public class Login extends JFrame{
 					if (result.getString("Senha").compareTo(senhaTF.getText()) == 0){
 					
 						// Armazena o Resultado da Operação no Objeto Cliente para ser Usado posteriormente.
-						Cliente cliente = new Cliente(result.getString("Usuario"),result.getString("Nome"),canalTF.getText());
+						Cliente cliente = new Cliente(result.getString("Usuario"),result.getString("Nome"),result.getString("Privilegio"),canalTF.getText());
 						
 						// Armazena a próxima Tela ao nextFrame.
-						nextFrame = new GUIPrincipal(this,"Menu Principal - CHAT",cliente);
+						nextFrame = new GUIPrincipal(this,"CHAT - Canal: " + canalTF.getText(),cliente);
 						
 						// Seta a Visibilidade do JFrame seguinte para visível.
 						nextFrame.show(true);
