@@ -33,11 +33,7 @@ public class Login extends JFrame{
 	private void construirLayout(){
 		
 		Cor c = new Cor();
-		
-		Color fundoAzul = new Color(21,48,93);
-		Color fundoVerde = new Color(96,178,164);
-		Color fundoBranco = new Color(204,213,217);
-		
+			
 		
 		//Painel da Logo
 		JPanel topo = new JPanel();
