@@ -132,7 +132,7 @@ public class Login extends JFrame{
 					if (result.getString("Senha").compareTo(senhaTF.getText()) == 0){
 					
 						// Armazena o Resultado da Operação no Objeto Cliente para ser Usado posteriormente.
-						Cliente cliente = new Cliente(result.getString("Usuario"),result.getString("Nome"),canalTF.getText());
+						Cliente cliente = new Cliente(result.getString("Usuario"),result.getString("Nome"),result.getString("Privilegio"),canalTF.getText());
 						
 						// Armazena a próxima Tela ao nextFrame.
 						nextFrame = new GUIPrincipal(this,"Menu Principal - CHAT",cliente);

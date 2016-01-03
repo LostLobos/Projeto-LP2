@@ -128,7 +128,7 @@ public class Cadastro extends JFrame{
 					String formatedPass = "'" + senhaTF.getText() + "'";
 					
 					// Monta a Operação da QUERY.
-					Query = "Insert INTO Usuarios (Usuario,Nome,Senha) VALUES (" + formatedUser + "," + formatedName + "," + formatedPass + ")";
+					Query = "Insert INTO Usuarios (Usuario,Nome,Senha,Privilegio) VALUES (" + formatedUser + "," + formatedName + "," + formatedPass + ",'Usuario')";
 					
 					// Executa a Query e Retorna o Número de Linhas Afetadas pela Query ( No caso do Cadastro, apenas 1 ).
 					int rowsChanged = conn.updateQuery(Query);

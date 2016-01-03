@@ -45,7 +45,80 @@ public class GUIPrincipal extends JFrame{
 		AtualizarMensagens();
 	}
 	
+	private void construirMenu(){
+		
+		// Cria uma barra de menu para o JFrame
+        JMenuBar menuBar = new JMenuBar();
+
+		// Seta o MenuBar para o JFrame.
+		setJMenuBar(menuBar);
+		
+		// Define e adiciona um Menu de DropDown.
+		JMenu fileMenu = new JMenu("Arquivo");
+		
+		// Adiciona esse SubMenu.
+		menuBar.add(fileMenu);
+		
+		// Cria e adiciona um item simples para o menu
+        JMenuItem logoutAction = new JMenuItem("Logout");
+		
+		// Cria uma Classe Anônima para adicionar um Listener para a opção de Logout.
+		logoutAction.addActionListener(new ActionListener(){
+			
+			@Override
+			public void actionPerformed(ActionEvent e){
+				parent.show(true);
+				close();
+			}
+			
+		});
+		
+		JMenuItem closeAction = new JMenuItem("Sair e Fechar");
+		
+		// Cria uma Classe Anônima para adicionar um Listener para a opção de Sair.
+		closeAction.addActionListener(new ActionListener(){
+			
+			@Override
+			public void actionPerformed(ActionEvent e){
+				System.exit(1);
+			}
+		});
+		
+		fileMenu.add(logoutAction);
+		fileMenu.add(closeAction);
+		
+		// Caso o Privilégio seja Administrativo cria o Painel Administrativo para o Usuário.
+		if (cliente.getPrivilegio().compareTo("Administrador") == 0){
+			
+			// Inicializa um Objeto Administrador, que é um Cliente.
+			Administrador admin = new Administrador(cliente,this);
+			
+			// Define e adiciona um Menu de DropDown.
+			JMenu adminMenu = new JMenu("Painel Administrativo");
+			
+			// Adiciona esse SubMenu.
+			menuBar.add(adminMenu);
+			
+			// Cria e adiciona um item simples para o menu
+			JMenuItem limparAction = new JMenuItem("Limpar Chat");
+			
+			adminMenu.add(limparAction);
+			
+			// Cria uma Classe Anônima para adicionar um Listener para a opção de Logout.
+			limparAction.addActionListener(new ActionListener(){
+				
+				@Override
+				public void actionPerformed(ActionEvent e){
+					admin.clearChat(admin.CLEAR_ALL);
+				}
+			});
+		}
+	}
+	
 	private void construirLayout(){
+		
+		// Invoca o Método para Construção e Inicialização do Menu.
+		construirMenu();
 		
 		// Painel dos EditTexts e Labels.
 		JPanel painel = new JPanel();
@@ -74,7 +147,6 @@ public class GUIPrincipal extends JFrame{
 		
 		// Instancia o Botão de Login.
 		enviarB = new JButton("Enviar");
-		
 		
 		// Cria uma Classe Anônima para adicionar um Listener para o Botão.
 		enviarB.addActionListener(new ActionListener(){
@@ -146,7 +218,7 @@ public class GUIPrincipal extends JFrame{
 	
 	private void AtualizarMensagens(){
 		
-		// Instancia uma Nova Thread
+		// Instancia uma Classe Anônima de Thread
 		Thread thread = new Thread(){
 			
 			// Implementa seu Método Run.
