@@ -167,7 +167,7 @@ public class GUIPrincipal extends JFrame{
 		painel2.setBackground(c.getCor(1));
 		
 		// Instancia um Novo TextArea para o Chat ser mostrado.
-		chatTA = new JTextArea(50,50);
+		chatTA = new JTextArea(19,0);
 		// Define a cor de fundo do TextArea.
 		chatTA.setBackground(c.getCor(2));
 		
