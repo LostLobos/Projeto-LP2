@@ -135,6 +135,7 @@ public class Cadastro extends JFrame{
 					
 					JOptionPane.showMessageDialog(this, "Cadastro Efetuado com Sucesso!","Sucesso",JOptionPane.INFORMATION_MESSAGE);
 					
+					// Invoca o Método que retorna pra Tela de Login.
 					VoltarClick();
 				}
 				
