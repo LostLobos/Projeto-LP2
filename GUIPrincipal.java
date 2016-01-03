@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.text.DefaultCaret;
 import java.awt.BorderLayout;
 import java.awt.event.*;
 import java.sql.*;
@@ -42,6 +43,7 @@ public class GUIPrincipal extends JFrame{
 		// Constrói o Layout da Tela.
 		construirLayout();
 		
+		// Realiza a Atualização das Mensagens.
 		AtualizarMensagens();
 	}
 	
@@ -103,6 +105,7 @@ public class GUIPrincipal extends JFrame{
 			JMenuItem limparAction = new JMenuItem("Limpar Chat");
 			JMenuItem limparuAction = new JMenuItem("Apagar Ultima Mensagem");
 			
+			// Adiciona os SubMenus na Categoria do Menu Principal "Painel Administrativo".
 			adminMenu.add(limparAction);
 			adminMenu.add(limparuAction);
 			
@@ -141,16 +144,22 @@ public class GUIPrincipal extends JFrame{
 		JPanel painel2 = new JPanel();
 		
 		// Instancia um Novo TextArea para o Chat ser mostrado.
-		chatTA = new JTextArea("",100,100);
+		chatTA = new JTextArea("");
+		
+		// Habilita a Quebra automática de linha.
+		chatTA.setLineWrap(true);
+		
+		// Faz com que o ScrollBar sempre acompanhe os textos.
+		DefaultCaret caret = (DefaultCaret) chatTA.getCaret();
+		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		
 		// Desabilita o Recurso de Edição do TextArea.
 		chatTA.setEditable(false);
 		
 		// Cria um ScrollBar para o TextArea.
-		JScrollPane scrollChat = new JScrollPane (chatTA,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		JScrollPane scrollChat = new JScrollPane (chatTA,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		
 		// Deixar o TextArea Visivel.
-		scrollChat.getViewport().setOpaque(false);
         scrollChat.setOpaque(false);
 		
 		// Instancia um Novo TextField para a Mensagem.

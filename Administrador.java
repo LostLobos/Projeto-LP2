@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.sql.*;
-import java.lang.StringBuilder;
 
 public class Administrador{
 	
@@ -30,6 +29,7 @@ public class Administrador{
 		
 			String Query = "";
 		
+			// Verifica qual foi a forma de Apagar as Mensagens.
 			if (option == 0){
 				// Monta a Operação da QUERY para Deletar todas as Mensagens.
 				Query = "DELETE FROM Chat WHERE Canal=" + formatedCanal;
@@ -42,6 +42,7 @@ public class Administrador{
 			// Executa a Query e Retorna um ResultSet contendo seu Resultado.
 			int rowsChanged = conn.updateQuery(Query);
 			
+			// Mostra a Mensagem de Sucesso.
 			JOptionPane.showMessageDialog(parent, "Mensagem(s) Apagada(s) com Sucesso!\n\n" + Integer.toString(rowsChanged) + " Mensagens Apagadas!","Sucesso",JOptionPane.INFORMATION_MESSAGE);
 			
 		}catch(SQLException SQL_e){
