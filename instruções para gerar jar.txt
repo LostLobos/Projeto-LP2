@@ -1,0 +1,1 @@
+Comando: jar cfm UERJChat.jar Manifest.txt *.class
