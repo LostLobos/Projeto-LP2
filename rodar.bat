@@ -53,7 +53,9 @@ echo --------------------------------------------------------------
 echo.
 echo.
 
-java -cp ;"C:\Users\Igor\Desktop\Faculdade\LP2\Projeto\Projeto-LP2\mysql-connector-java-5.1.38-bin.jar" Main
+SET mypath=%~dp0
+
+java -cp ;"%mypath%mysql-connector-java-5.1.38-bin.jar" Main
 
 echo.
 echo.
