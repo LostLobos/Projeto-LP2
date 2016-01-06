@@ -4,7 +4,6 @@ javac Main.java
 
 Rodar:
 
-java -cp ;"%mypath%
-mysql-connector-java-5.1.38-bin.jar" Main
+java -cp ;"%mypath%mysql-connector-java-5.1.38-bin.jar" Main
 
 , onde %mypath% é o diretório do conector mysql.
