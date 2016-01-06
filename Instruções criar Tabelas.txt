@@ -1,0 +1,16 @@
+CREATE TABLE `Chat` (
+  `id_mensagem` int(11) NOT NULL AUTO_INCREMENT,
+  `Nome` text CHARACTER SET utf8 NOT NULL,
+  `Mensagem` text CHARACTER SET utf8 NOT NULL,
+  `Canal` text CHARACTER SET utf8 NOT NULL,
+  PRIMARY KEY (`id_mensagem`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `Usuarios` (
+  `id_usuario` bigint(20) NOT NULL AUTO_INCREMENT,
+  `Usuario` text CHARACTER SET utf8 NOT NULL,
+  `Senha` text CHARACTER SET utf8 NOT NULL,
+  `Nome` text CHARACTER SET utf8 NOT NULL,
+  `Privilegio` text CHARACTER SET utf8 NOT NULL,
+  PRIMARY KEY (`id_usuario`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
